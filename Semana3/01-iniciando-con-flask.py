@@ -66,10 +66,35 @@ def inicio():
   return 'La API de supermercados funciona correctamente!!!!' 
   # API - Application Programming Interface
 
+#Hemos definido una una ruta que devuelva todos los supermercados
 @app.route('/api/v1/traertodos', methods=['GET'])
 def traersupermercados():
   return jsonify({'supermercados': supermercados})
 
+#Definimos una ruta que permita buscar un supermercado
+@app.route('/api/v1/supermercadopornombre/<string:nombresuper>',methods=['GET'])
+def traersuperpornombre(nombresuper):
+  print(nombresuper)
+
+  #Para encontrar el nombre del super dentro de mi lista de supermercados y que me devuelva solo el nombre
+  for supermercado in supermercados:
+    if supermercado['nombre']==nombresuper:
+      return jsonify(supermercado)
+    print(supermercado['nombre'])
+  
+  return 'No existe el supermercado buscado'
+
+@app.route('/api/v1/<string:nombresuper>/productos', methods=['GET'])
+def traer_todos_los_productos_por_supermercado(nombresuper):
+  for supermercado in supermercados:
+    if supermercado['nombre']==nombresuper:
+      return jsonify(
+        {'Productos':supermercado['productos']}
+      )
+  
+  return jsonify({
+    'message':'Supermercado no encontrado'
+  }),404
 
 app.run(debug=True, port=8000)
 
