@@ -1,5 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 #jsonify => sirve para convertir un diccionario en un json para que el frontend pueda entender la API
+#request => es para capturar lo que me mande el cliente (frontend) por su cuerpo (body)
 
 app = Flask(__name__)
 
@@ -95,6 +96,46 @@ def traer_todos_los_productos_por_supermercado(nombresuper):
   return jsonify({
     'message':'Supermercado no encontrado'
   }),404
+
+# @app.route('/api/v1/crearsupermercado', methods=['POST'])
+# def crear_supermercado():
+#   # get_json la data que recibamos (json) lo va a transformar automaticamente en un diccionario para que py lo pueda entender
+#   data = request.get_json()
+# #  print(data['nombre'])
+#   nuevo_supermercado = {
+#     'nombre': data['nombre'],
+#     'productos':[]
+#   }
+#   print(nuevo_supermercado)
+#   supermercados.append(nuevo_supermercado)
+
+#   return jsonify({"Supermercados":supermercados}),201
+
+# POST va a ser el verbo HTTP que nos va a permitir crear registro
+@app.route('/api/v1/supermercados', methods=['GET','POST'])
+def manejo_supermercado():
+  # print(request.method)
+  #.method me indicará que tipo de verbo HTTP Tiene mi Petición
+  if request.method == "GET":
+    return {
+      "ok": True,
+      "content":supermercados,
+      "message": None
+    }
+  elif request.method == "POST":
+    data = request.get_json()
+    nuevo_supermercado = {
+      'nombre': data['nombre'],
+      'productos':[]
+    }
+    supermercados.append(nuevo_supermercado)
+    print(supermercados)
+    return {
+      "ok":True,
+      "content": None,
+      "message": "El supermercado se agrego exitosamente"
+    }
+
 
 app.run(debug=True, port=8000)
 
