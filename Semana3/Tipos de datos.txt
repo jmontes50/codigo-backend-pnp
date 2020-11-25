@@ -1,0 +1,17 @@
+#SQL
+#Tipos de Datos
+#Numericos
+#int: que acepta -2147483648 a 2147483647
+#tinyint: -128 a 127
+#smallint: -32768 a 32767
+
+#tiempo y fecha
+#date: para fechas YYYY-MM-DD 
+#datetime: fechas y horas YYYY-MM-DD HH:MM:SS
+#timestamp: YYYYMMDDHHMMSS
+#time: HH:MM:SS
+
+#strings
+#char(1): solamente admite caracteres y no tiene una longitud solo acepta 1
+#varchar(50):asignara según los caracteres una cantidad de memoria, hasta llegar al limite indicado
+#text: va a permitir cadenas de caracteres pero hasta un máximo de 65535
