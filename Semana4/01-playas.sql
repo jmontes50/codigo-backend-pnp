@@ -34,3 +34,15 @@ CREATE TABLE t_registro(
   foreign key (playa_id) references t_playa(playa_id),
   foreign key (veh_id) references t_vehiculo(veh_id)
 );
+
+#AGREGANDO DATOS A DATABASE
+INSERT INTO t_vehiculo (veh_placa, veh_marca, veh_anio, veh_modelo, veh_color) VALUES
+                      ('A2-1234','Mitsubishi',2015,'ASX','Negro'),
+                      ('A1-4232','Volkswagen',2012,'Amarok','Plomo'),
+                      ('B4-5678','Daewoo',2008,'Ticco','Azul'),
+                      ('AH-1235','Toyota',2018,'Tercel','Blanco'),
+                      ('OH-8764','Tesla',2019,'Model X', 'Rojo');
+
+SELECT veh_modelo, veh_marca, veh_anio FROM t_vehiculo ORDER BY veh_marca, veh_anio DESC;
+
+SELECT * FROM t_vehiculo;
