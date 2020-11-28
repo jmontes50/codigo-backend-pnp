@@ -121,7 +121,7 @@ def manejo_supermercado():
       "ok": True,
       "content":supermercados,
       "message": None
-    }
+    }, 200
   elif request.method == "POST":
     data = request.get_json()
     nuevo_supermercado = {
@@ -134,7 +134,7 @@ def manejo_supermercado():
       "ok":True,
       "content": None,
       "message": "El supermercado se agrego exitosamente"
-    }
+    }, 201
 
 
 app.run(debug=True, port=8000)
