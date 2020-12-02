@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 
 #Tenemos que tener instalado flask-mysqldb -> pip install flask-mysqldb
@@ -35,10 +35,43 @@ def traer_supermercados():
   #fetchone() -> Nos va a devolver la primera coincidencia
   informacion = conexion.fetchall()
   #Cerramos la conexion y libero el tunnel, es recomendable cerrar la conexión
-  conexion.close()
-  print(informacion)
 
-  return 'Ok'
+  print(informacion) #CONVERTIR ESTA INFO A UN JSON Bonito para una respuesta.
+
+  diccionario = []
+  for supermercado in informacion:
+    supermercadodic = {
+      'id':supermercado[0],
+      'nombre':supermercado[1],
+      'direccion':supermercado[2]
+    }
+    diccionario.append(supermercadodic)
+  conexion.close()
+  return jsonify(diccionario)
+
+@app.route('/supermercados/agregar',methods=['POST'])
+def agregar_super():
+  info = request.get_json()
+  # print(info)
+  if(info['nombre'] and info['direccion']):
+    conexion = mysql.connection.cursor()
+    conexion.execute('INSERT INTO t_supermercados (nom_super, dir_super) VALUES (%s, %s)',(info['nombre'],info['direccion']))
+    #tenemos que esperar y asegurarnos que el ingreso de datos sea correcto
+    mysql.connection.commit()
+    conexion.close()
+    return jsonify({
+      'message':'Supermercado agregado con exito',
+      'content':info
+    }), 201
+
+  else: #esto en caso las cosas salgan mal
+    return jsonify(
+      {
+        'message':'Faltan Datos!'
+      }
+    ), 400
+
+  return 'ok'
 
 if __name__ == '__main__':
   app.run(debug=True, port=8000)
