@@ -71,7 +71,7 @@ def agregar_super():
       }
     ), 400
 
-  return 'ok'
+#TAREA: Crear 1 ruta que permita agregar 1 cliente.
 
 if __name__ == '__main__':
   app.run(debug=True, port=8000)
