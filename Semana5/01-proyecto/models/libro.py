@@ -11,6 +11,7 @@ class LibroModel(db.Model):
   codigo = db.Column("lib_cod", db.Text)
   #RELACIONES
   est_id = db.Column(db.Integer, db.ForeignKey('t_estante.est_id'), nullable=False)
+  autores = db.relationship('AutorLibroModel', backref="libro")
 
   def __init__ (self, nombre, editorial, numpaginas, precio, publicacion, codigo):
     self.nombre = nombre

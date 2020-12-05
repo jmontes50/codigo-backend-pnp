@@ -8,6 +8,8 @@ from models.autor import AutorModel
 from models.libro import LibroModel
 from models.autorlibro import AutorLibroModel
 
+from controllers.estante import EstantesController
+
 app = Flask(__name__)
 # dialect+driver://username:password@host:port/database
 #MySQL, Oracle, SQLite, PostgreSQL
@@ -28,6 +30,9 @@ def iniciador():
 @app.route('/')
 def inicio():
   return "El servidor funciona, correctamente"
+
+api.add_resource(EstantesController, '/estante')
+
 
 if __name__ == '__main__':
   app.run(debug=True)
