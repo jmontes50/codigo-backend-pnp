@@ -4,6 +4,9 @@ from flask_restful import Api
 #pip install flask-sqlalchemy
 from base_datos import db
 from models.estante import EstanteModel
+from models.autor import AutorModel
+from models.libro import LibroModel
+from models.autorlibro import AutorLibroModel
 
 app = Flask(__name__)
 # dialect+driver://username:password@host:port/database
@@ -16,6 +19,8 @@ api = Api(app=app)
 def iniciador():
   # Aqui ya se conectar a la db
   db.init_app(app)
+  #Elimina los modelos y los vuelve a crear
+  # db.drop_all(app=app)
   # Creame los modelos que tengas
   db.create_all(app=app)
 

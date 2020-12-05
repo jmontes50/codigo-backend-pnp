@@ -1,6 +1,7 @@
 from base_datos import db
 
 class EstanteModel(db.Model):
+  __tablename__ = "t_estante"
   id = db.Column("est_id", db.Integer, primary_key=True)
   capacidad = db.Column("est_cap", db.Integer, nullable=False)
   ubicacion = db.Column("est_ubic", db.String(50))
