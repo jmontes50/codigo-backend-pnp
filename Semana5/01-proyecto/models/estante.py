@@ -6,18 +6,15 @@ class EstanteModel(db.Model):
   capacidad = db.Column("est_cap", db.Integer, nullable=False)
   ubicacion = db.Column("est_ubic", db.String(50))
   descripcion = db.Column("est_desc", db.String(45))
-  estado = db.Column(db.Boolean, default=True)
   #servir para tener una relación inversa
   #traer todos los libros que pertenecen a un estante 
   #Ayuda un montón a la lógica
   libros = db.relationship('LibroModel', backref="estante")
 
-  def __init__(self, capacidad, ubicacion, descripcion, estado=None):
+  def __init__(self, capacidad, ubicacion, descripcion):
     self.capacidad = capacidad
     self.ubicacion =  ubicacion
     self.descripcion = descripcion
-    if estado is not None:
-      self.estado = estado
   
   def guardar_bd(self):
     db.session.add(self)

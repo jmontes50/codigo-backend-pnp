@@ -8,7 +8,7 @@ from models.autor import AutorModel
 from models.libro import LibroModel
 from models.autorlibro import AutorLibroModel
 
-from controllers.estante import EstantesController, EstanteController
+from controllers.estante import EstantesController
 
 app = Flask(__name__)
 # dialect+driver://username:password@host:port/database
@@ -32,7 +32,6 @@ def inicio():
   return "El servidor funciona, correctamente"
 
 api.add_resource(EstantesController, '/estante')
-api.add_resource(EstanteController, '/estante/<int:est_id>')
 
 
 if __name__ == '__main__':
