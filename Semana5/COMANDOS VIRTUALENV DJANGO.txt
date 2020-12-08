@@ -1,0 +1,31 @@
+#instalar virtualenv
+pip install virtualenv
+
+#crear un entorno virtual
+py -m venv <nombreentorno>
+
+cd <nombre entorno>
+
+#En caso de no tener permisos para ejecutar Scripts\activate
+
+En el powershell ->
+Set-ExecutionPolicy RemoteSigned
+Set-ExecutionPolicy Unrestricted
+
+Scripts\activate
+
+#instalación django
+pip install django
+#en caso no instale utilizar este
+pip install --user django
+python -m pip install Django
+
+npx o ng ->que permite crear proyectos
+
+django-admin -> nos permite crear
+un proyecto
+
+#crear un proyecto con django
+django-admin startproject <nombre_proyecto>
+
+
