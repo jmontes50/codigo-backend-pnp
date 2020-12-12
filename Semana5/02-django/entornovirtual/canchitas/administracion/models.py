@@ -79,6 +79,3 @@ class RegistroModel(models.Model):
   estado = models.BooleanField(default=True, null=False)
   class Meta:
     db_table = 't_registro'
-
-
-
