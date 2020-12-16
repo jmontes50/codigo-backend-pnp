@@ -1,6 +1,6 @@
 from .models import TipoCanchaModel
 from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from .serializers import TipoCanchaSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -39,4 +39,35 @@ class TipoCanchasView(ListCreateAPIView):
         'ok':False,
         'content':None,
         'message':'Hubo un error al crear el Tipo Cancha'
+      }, status=status.HTTP_400_BAD_REQUEST)
+
+class TipoCanchaView(RetrieveUpdateDestroyAPIView):
+  serializer_class = TipoCanchaSerializer
+  queryset = TipoCanchaModel.objects.all()
+  def get(self, request, tipoCanchaId):
+    # Ek filter no retorna error, pero si una lista vacia
+    # print(self.get_queryset().filter(tipoCanchaId=tipoCanchaId))
+     # El .get() devuelve todas las coincidencias de un modelo, eso permite que yo pueda indicar el parametro a utilizar
+    # print(self.get_queryset().get(tipoCanchaId=tipoCanchaId))
+    respuesta = self.get_serializer(self.get_queryset().get(tipoCanchaId=tipoCanchaId))
+    return Response ({
+      'Ok':True,
+      'content':respuesta.data,
+      'message':None
+    })
+
+  def put(self, request, tipoCanchaId):
+    respuesta = self.get_serializer(self.get_queryset().get(tipoCanchaId=tipoCanchaId), data=request.data)
+    if respuesta.is_valid():
+      resultado = respuesta.update()
+      return Response({
+        'ok':True,
+        'content':self.serializer_class(resultado).data,
+        'message':None
+      })
+    else:
+      return Response({
+        'ok':False,
+        'content':None,
+        'message':'Hubo un error al actualizar'
       }, status=status.HTTP_400_BAD_REQUEST)

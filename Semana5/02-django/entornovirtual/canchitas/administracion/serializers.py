@@ -12,3 +12,13 @@ class TipoCanchaSerializer(serializers.ModelSerializer):
     #ambos utilizando los nombres de las columnas no de la tabla
     fields = '__all__'
     # exclude = ['createdAd','updatedAt']
+  
+  def update(self):
+    # print(self.instance.tipoCanchaNombre #es mi registro actual en la db en forma de obj
+    # print(self.validated_data) #es la data del front (postman) verificada
+
+    self.instance.tipoCanchaDescripcion = self.validated_data.get('tipoCanchaDescripcion',self.instance.tipoCanchaDescripcion)
+    self.instance.tipoCanchaNombre = self.validated_data.get('tipoCanchaNombre', self.instance.tipoCanchaNombre)
+    self.instance.save()
+    return self.instance
+    
