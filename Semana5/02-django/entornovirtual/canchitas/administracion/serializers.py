@@ -22,3 +22,9 @@ class TipoCanchaSerializer(serializers.ModelSerializer):
     self.instance.save()
     return self.instance
     
+  def delete(self):
+    #Vamos a cambiar el comportamiento para que al llamar a este metodo no elimine nada, solo cambiue el estado de la instancia a false
+
+    self.instance.estado = False
+    self.instance.save()
+    return self.instance

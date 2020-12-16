@@ -71,3 +71,12 @@ class TipoCanchaView(RetrieveUpdateDestroyAPIView):
         'content':None,
         'message':'Hubo un error al actualizar'
       }, status=status.HTTP_400_BAD_REQUEST)
+  
+  def delete(self, request, tipoCanchaId):
+    respuesta = self.get_serializer(self.get_queryset().get(tipoCanchaId=tipoCanchaId))
+    resultado = respuesta.delete()
+    return Response({
+      'ok':True,
+      'content':self.get_serializer(resultado).data,
+      'message': 'Se inhabilito con exito el tipo de Cancha'
+    }, status=status.HTTP_200_OK)
