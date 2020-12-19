@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import ProductosService from "../services/productosService";
 
 export default function AnadirProductoView() {
+  const prodService = new ProductosService();
+
   const [value, setValue] = useState({
     nombre: "",
     descripcion: "",
@@ -16,9 +19,16 @@ export default function AnadirProductoView() {
       [e.target.name]: e.target.value,
     });
   };
+   const manejarSubmit = (e) => {
+     e.preventDefault();
+    prodService.crearProducto(value).then(rpta => {
+      console.log("Exito!!")
+    })
+   }
+
   return (
     <div>
-      <form>
+      <form onSubmit={(e) => {manejarSubmit(e)}}>
         <div className="form-group">
           <label>Nombre:</label>
           <input
@@ -79,6 +89,9 @@ export default function AnadirProductoView() {
             }}
           />
         </div>
+        <button type="submit" className="btn btn-primary btn-block">
+          Agregar Producto
+        </button>
       </form>
     </div>
   );

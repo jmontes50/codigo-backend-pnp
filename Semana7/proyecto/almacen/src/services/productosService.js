@@ -14,4 +14,8 @@ export default class ProductosService{
       })
     })
   }
+
+  crearProducto(producto){
+    return this.db.collection("productos").add({...producto})
+  }
 }
