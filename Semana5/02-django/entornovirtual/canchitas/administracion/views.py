@@ -45,7 +45,7 @@ class TipoCanchaView(RetrieveUpdateDestroyAPIView):
   serializer_class = TipoCanchaSerializer
   queryset = TipoCanchaModel.objects.all()
   def get(self, request, tipoCanchaId):
-    # Ek filter no retorna error, pero si una lista vacia
+    # El filter no retorna error, pero si una lista vacia
     # print(self.get_queryset().filter(tipoCanchaId=tipoCanchaId))
      # El .get() devuelve todas las coincidencias de un modelo, eso permite que yo pueda indicar el parametro a utilizar
     # print(self.get_queryset().get(tipoCanchaId=tipoCanchaId))
