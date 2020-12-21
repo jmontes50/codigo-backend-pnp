@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import HomeView from "./views/HomeView";
-import AnadirProductoView from "./views/AnadirProductoView";
-import RegisterView from "./views/RegisterView";
+import React from "react";
+import Routes from "./routes";
+import { Switch, BrowserRouter as Router } from "react-router-dom";
+import Navigation from "./components/Navigation";
+import AuthContextProvider from "./context/authContext";
 
 export default function App() {
   return (
-    <div className="container">
-      {/* <div className="row">
-        <div class="col-8">
-          <HomeView />
+    <Router>
+      <AuthContextProvider>
+        <Navigation />
+        <div className="container">
+          <Switch>
+            <Routes />
+          </Switch>
         </div>
-        <div className="col-4">
-          <AnadirProductoView />
-        </div>
-      </div> */}
-      <RegisterView/>
-    </div>
+      </AuthContextProvider>
+    </Router>
   );
 }

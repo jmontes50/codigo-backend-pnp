@@ -11,4 +11,16 @@ const registro = (email, password) => {
   })
 }
 
-export {registro};
+const ingresar = (email, password) => {
+  return new Promise ((resolve, reject) => {
+    fire.auth().signInWithEmailAndPassword(email, password)
+    .then(u => {
+      resolve(u.user)
+    })
+    .catch(error => {
+      reject(`Error al loguear ${error}`)
+    })
+  })
+}
+
+export {registro, ingresar};
