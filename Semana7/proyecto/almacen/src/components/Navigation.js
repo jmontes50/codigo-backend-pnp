@@ -13,6 +13,8 @@ export default function Navigation() {
             <Nav.Link><Link to="/">Home</Link></Nav.Link>
             <Nav.Link><Link to="/register">Registro</Link></Nav.Link>
             <Nav.Link><Link to="/anadir">Crear Producto</Link></Nav.Link>
+            <Nav.Link><Link to="/login">Ingresar</Link></Nav.Link>
+            <Nav.Link><Link to="/perfil">Mi Perfil</Link></Nav.Link>
 
             {/* <NavDropdown title="Dropdown" id="basiºc-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
