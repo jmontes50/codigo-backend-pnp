@@ -3,12 +3,14 @@ import HomeView from "./views/HomeView";
 import AnadirProductoView from "./views/AnadirProductoView";
 export default function App() {
   return (
-    <div className="row">
-      <div class="col-8">
-        <HomeView />
-      </div>
-      <div class="col-4">
-        <AnadirProductoView />
+    <div className="container">
+      <div className="row">
+        <div class="col-8">
+          <HomeView />
+        </div>
+        <div className="col-4">
+          <AnadirProductoView />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ProductosService from "../services/productosService";
 import {storage} from '../config/firebase';
+import {v4 as uuidv4} from "uuid";
 
 let imagenProducto;
 
@@ -16,6 +17,17 @@ export default function AnadirProductoView() {
     marca: "",
   });
 
+  const cambiarNombre = (nombre) => {
+    let nombreAleatorio = uuidv4();
+    // ==> 23532532gfsdgsdf-fdsgsd21343-asfsafsa
+    console.log({nombreAleatorio})
+    let separarNombre = nombre.split(".");
+    // ==> imagen.png => ["imagen","png"]
+    console.log({separarNombre})
+    let nuevoNombre = `${nombreAleatorio}.${separarNombre[1]}`
+    return nuevoNombre;
+  }
+
   const actualizarInput = (e) => {
     setValue({
       ...value,
@@ -28,22 +40,24 @@ export default function AnadirProductoView() {
     let miImagen = e.target.files[0]
     imagenProducto = miImagen;
     console.log(imagenProducto)
+    // cambiarNombre(imagenProducto.name)
   }
 
   const manejarSubmit = (e) => {
      e.preventDefault();
-    const refStorage = storage.ref(`productos/${imagenProducto.name}`)
+     let nuevoNombre = cambiarNombre(imagenProducto.name);
+    const refStorage = storage.ref(`productos/${nuevoNombre}`)
     prodService.subirImagen(imagenProducto, refStorage)
     .then(urlImagen => {
       prodService.crearProducto({...value, imagen:urlImagen}).then(rpta => {
         console.log("Exito!!")
       })
     })
-    
   }
 
   return (
     <div>
+      <h1>Crear Producto</h1>
       <form onSubmit={(e) => {manejarSubmit(e)}}>
         <div className="form-group">
           <label>Nombre:</label>
