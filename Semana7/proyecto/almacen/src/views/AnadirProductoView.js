@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import ProductosService from "../services/productosService";
+import {storage} from '../config/firebase';
+
+let imagenProducto;
 
 export default function AnadirProductoView() {
   const prodService = new ProductosService();
@@ -19,12 +22,25 @@ export default function AnadirProductoView() {
       [e.target.name]: e.target.value,
     });
   };
-   const manejarSubmit = (e) => {
+
+  const manejarImagen = (e) => {
+    e.preventDefault();
+    let miImagen = e.target.files[0]
+    imagenProducto = miImagen;
+    console.log(imagenProducto)
+  }
+
+  const manejarSubmit = (e) => {
      e.preventDefault();
-    prodService.crearProducto(value).then(rpta => {
-      console.log("Exito!!")
+    const refStorage = storage.ref(`productos/${imagenProducto.name}`)
+    prodService.subirImagen(imagenProducto, refStorage)
+    .then(urlImagen => {
+      prodService.crearProducto({...value, imagen:urlImagen}).then(rpta => {
+        console.log("Exito!!")
+      })
     })
-   }
+    
+  }
 
   return (
     <div>
@@ -87,6 +103,14 @@ export default function AnadirProductoView() {
             onChange={(e) => {
               actualizarInput(e);
             }}
+          />
+        </div>
+        <div className="form-group">
+          <label>Elegir Imagen</label>
+          <input 
+          type="file"
+          className="form-control"
+          onChange={(e)=>{manejarImagen(e)}}
           />
         </div>
         <button type="submit" className="btn btn-primary btn-block">
