@@ -3,7 +3,9 @@ const express = require('express');
 const {
   getDocumentos,
   crearDocumentos,
-  getDocumentoById} = require('../controllers/Documentos');
+  getDocumentoById,
+  actualizarDocumento,
+  borrarDocumento} = require('../controllers/Documentos');
 
 const documentos_router = express.Router();
 
@@ -11,6 +13,8 @@ const documentos_router = express.Router();
 documentos_router.get('/documentos', getDocumentos);
 documentos_router.post('/documentos',crearDocumentos);
 documentos_router.get('/documento/:id_documento', getDocumentoById)
+documentos_router.put('/documento/:id_documento', actualizarDocumento)
+documentos_router.delete('/documento/:id_documento',borrarDocumento)
 
 module.exports = {
   documentos_router
