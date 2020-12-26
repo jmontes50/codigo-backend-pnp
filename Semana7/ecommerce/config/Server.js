@@ -43,14 +43,13 @@ class Server {
 
       // force:true => va a borrar toda la base de datos, tablas, valores, y la va a crear de nuevo, basicamente un drop all tables,
       // alter:true => verifica que los modelos esten igual a las tablas, si hay algun cambio solamente va a hacer el cambio en la diferencia que encuentre en el modelo y la tabla, esto messirve para no perder información
-      conexion.sync({force:true, alter:true}).then(()=>{
+      conexion.sync({force:false, alter:true}).then(()=>{
         console.log('Base de datos sincronizada correctamente');
       })
       // No olvidar instalar el controlador de la BD
       //npm install mysql2
     })
   }
-  
 }
 
 module.exports = Server;
