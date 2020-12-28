@@ -27,7 +27,7 @@ const crearCategoria = (req, res) => {
 const obtenerCategorias = (req, res) => {
   Categoria.findAll()
   .then(arregloCategorias => {
-    console.log({arregloCategorias})
+    // console.log({arregloCategorias})
     return res.json({
       ok:true,
       content:arregloCategorias,
@@ -43,7 +43,78 @@ const obtenerCategorias = (req, res) => {
   })
 }
 
+const obtenerCategoriaPorId = (req, res) => {
+  // console.log(req.params)
+  let { id } = req.params;
+  Categoria.findByPk(id).then(categoria => {
+    if(categoria){ //un valor que se considere true
+      return res.json({
+        ok:true,
+        content:categoria,
+        message:null
+      })
+    }else{
+      return res.status(404).json({
+        ok:false,
+        content: null,
+        message: 'No se encontro la categoria'
+      })
+    }
+  }).catch(error => {
+    res.status(500).json({
+      ok:false,
+      content:error,
+      message:null
+    })
+  })
+}
+
+const actualizarCategoria = (req, res) => {
+  let {id} = req.params;
+  Categoria.findByPk(id)
+  .then(categoria => {
+    if(categoria){
+      //Si! es que mi categoria existe
+      let cuerpo = req.body;
+      // update() retorna una promesa
+      return Categoria.update(cuerpo, {
+        where:{
+          categoriaId:id
+        }
+      })
+    }else{
+      //no existe :'(
+        return res.status(404).json({
+          ok:false,
+          content:null,
+          message:'No encontramos la categoria'
+        })
+    }
+  }) //este .then hare referencia a la promesa retornada con update
+  .then(categoriaActualizada => {
+    //aL momento de aplicar un where, nop necesariamente voy a obtener un solo resultado
+    //por eso en el .then() el resultado sera un arreglo
+    // console.log(categoriaActualizada)
+    if (categoriaActualizada[0]){
+      return res.json({
+        ok:true,
+        content:null,
+        message:'Se actualizo correctamente la categoria'
+      })
+      // Si al actualizar mi evaluacion de categoria no recibe nada, es porque el body es incorrecto
+    }else{
+      return res.status(400).json({
+        ok:false,
+        content:null,
+        message: "No se actualizo ninguna categoria, verifica el body"
+      })
+    }
+  })
+}
+
 module.exports = {
   crearCategoria,
-  obtenerCategorias
+  obtenerCategorias,
+  obtenerCategoriaPorId,
+  actualizarCategoria
 }
