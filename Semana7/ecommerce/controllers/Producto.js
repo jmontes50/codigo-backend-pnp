@@ -1,9 +1,9 @@
 const {Producto, Categoria} = require('../config/Sequelize');
 
 const crearProducto = (req, res) => {
-  let {categoriaId} = req.body;
+  let {cat_id} = req.body;
 
-  Categoria.findByPk(categoriaId)
+  Categoria.findByPk(cat_id)
   .then(categoria => {
     // Encontrando la categoria
     if(categoria){
@@ -35,7 +35,64 @@ const crearProducto = (req, res) => {
   })
 }
 
+const obtenerProductos = (req, res) => {
+  Producto.findAll({
+    include:[
+      {
+        model:Categoria,
+        attributes:['cat_nombre']
+      }
+    ],
+    where:{
+      estado:true
+    }
+  })
+  .then(productos => {
+    return res.json({
+      ok:true,
+      content:productos,
+      message:null
+    })
+  })
+  .catch(error => {
+    return res.status(500).json({
+      ok:false,
+      content:error,
+      message:'Error al obtener los productos'
+    })
+  })
+}
+
+const obtenerProductoPorId = (req, res) => {
+  let { id } = req.params;
+  Producto.findByPk(id)
+  .then(producto => {
+    if(producto){
+      return res.json({
+        ok:true,
+        content:producto,
+        message:null
+      })
+    }else{
+      res.status(404).json({
+        ok:false,
+        content:null,
+        message:"No se encontro el producto"
+      })
+    }
+  })
+  .catch(error => {
+    return res.status(500).json({
+      ok:false,
+      content:error,
+      message:"Error interno"
+    })
+  })
+}
+
 module.exports = {
   // crearProducto:crearProducto
-  crearProducto
+  crearProducto,
+  obtenerProductos,
+  obtenerProductoPorId
 }

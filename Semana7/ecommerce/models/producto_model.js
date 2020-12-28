@@ -24,6 +24,10 @@ const producto_model = (conexion) => {
     prod_stock:{
       type:Sequelize.INTEGER,
       field:'prod_stock'
+    },
+    estado:{
+      type:Sequelize.BOOLEAN,
+      defaulValue:true
     }
   }, {
     tableName: 't_productos',
