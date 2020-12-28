@@ -92,9 +92,7 @@ const actualizarCategoria = (req, res) => {
     }
   }) //este .then hare referencia a la promesa retornada con update
   .then(categoriaActualizada => {
-    //aL momento de aplicar un where, nop necesariamente voy a obtener un solo resultado
-    //por eso en el .then() el resultado sera un arreglo
-    // console.log(categoriaActualizada)
+    //aL momento de aplicar un where, nop necesariamente voy a obtener un solo resultado por eso en el .then() el resultado sera un arreglo
     if (categoriaActualizada[0]){
       return res.json({
         ok:true,
