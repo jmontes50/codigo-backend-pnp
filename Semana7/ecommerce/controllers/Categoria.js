@@ -1,4 +1,5 @@
 const {Categoria} = require('../config/Sequelize');
+const {Op} = require('sequelize');
 
 const crearCategoria = (req, res) => {
   //req.params -> extra de la url los parametros que mandemos
@@ -25,7 +26,11 @@ const crearCategoria = (req, res) => {
 }
 
 const obtenerCategorias = (req, res) => {
-  Categoria.findAll()
+  Categoria.findAll({
+    where:{
+      estado:true
+    }
+  })
   .then(arregloCategorias => {
     // console.log({arregloCategorias})
     return res.json({
@@ -92,7 +97,7 @@ const actualizarCategoria = (req, res) => {
     }
   }) //este .then hare referencia a la promesa retornada con update
   .then(categoriaActualizada => {
-    //aL momento de aplicar un where, nop necesariamente voy a obtener un solo resultado por eso en el .then() el resultado sera un arreglo
+    //aL momento de aplicar un where, nop necesariamente voy a obtener un solo resultado, por eso en el .then() el resultado sera un arreglo
     if (categoriaActualizada[0]){
       return res.json({
         ok:true,
@@ -110,9 +115,65 @@ const actualizarCategoria = (req, res) => {
   })
 }
 
+const eliminarCategoria = (req, res) => {
+  let {id} = req.params;
+  Categoria.findByPk(id)
+  .then(categoria => {
+    if(categoria){
+      return Categoria.update({estado:false}, {
+        where:{
+          categoriaId:id
+        }
+      })
+    }else{
+      //no existe :'(
+        return res.status(404).json({
+          ok:false,
+          content:null,
+          message:'No encontramos la categoria'
+        })
+    }
+  })
+  .then(categoriaEliminada => {
+    if (categoriaEliminada[0]){
+      return res.json({
+        ok:true,
+        content:null,
+        message:'Se elimino correctamente la categoria'
+      })
+    }
+  })
+}
+
+//SELECT * FROM t_categorias WHERE id=1
+//SELECT * FROM t_categorias WHERE cat_nombre LIKE %mouse%
+
+const obtenerCategoriaPorNombre = (req, res) => {
+  // console.log(req.query)
+  let {nombre} = req.query;
+  Categoria.findAll({
+    where:{
+      categoriaNomb:{
+        [Op.substring]:nombre
+      },
+      estado: true
+    }
+  })
+  .then(categoriasEncontradas => {
+    console.log(categoriasEncontradas);
+    res.json({
+      ok:true.status,
+      content:categoriasEncontradas,
+      message:null
+    })
+  })
+}
+
 module.exports = {
   crearCategoria,
   obtenerCategorias,
   obtenerCategoriaPorId,
-  actualizarCategoria
+  actualizarCategoria,
+  eliminarCategoria,
+  obtenerCategoriaPorNombre
 }

@@ -15,6 +15,10 @@ const categoria_model = (conexion) => {
       allowNull:false,
       field: 'cat_nombre'
     },
+    estado:{
+      type:Sequelize.BOOLEAN,
+      defaultValue:true
+    }
   }, //después que definimos las propiedades de nuestros campos, hay qque definir las propiedades de la tabla
   {
     tableName: 't_categorias',

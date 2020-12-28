@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {conexion} = require('./Sequelize');
 const {categoria_router} = require('../routes/Categoria');
+const {producto_router} = require('../routes/Producto');
 
 class Server {
   constructor(){
@@ -35,6 +36,7 @@ class Server {
       res.send('La API funciona correctamente!!!');
     });
     this.app.use('',categoria_router);
+    this.app.use('',producto_router);
   }
 
   iniciarServidor(){
