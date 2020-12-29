@@ -2,7 +2,8 @@ const {
         crearProducto,
         obtenerProductos,
         obtenerProductoPorId,
-        actualizarProducto
+        actualizarProducto,
+        eliminarProducto
       } = require('../controllers/Producto');
 const {Router} = require('express');
 
@@ -12,6 +13,7 @@ producto_router.post('/producto', crearProducto);
 producto_router.get('/producto', obtenerProductos);
 producto_router.get('/producto/:id', obtenerProductoPorId);
 producto_router.put('/producto/:id', actualizarProducto);
+producto_router.delete('/producto/:id', eliminarProducto);
 
 
 module.exports = {

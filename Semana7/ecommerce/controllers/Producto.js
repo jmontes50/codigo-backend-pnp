@@ -127,10 +127,45 @@ const actualizarProducto = (req, res) => {
   })
 }
 
+const eliminarProducto = (req, res) => {
+  let {id} = req.params;
+  Producto.findByPk(id)
+  .then(producto => {
+    if(producto){
+      return Producto.update({estado:false}, {
+        where:{
+          prodId:id
+        }
+      })
+    }else{
+      return res.status(404).json({
+        ok:false,
+        content:null,
+        message:'No se encontro el producto'
+      })
+    }
+  })
+  .then(productoActualizado => {
+    return res.json({
+      ok:true,
+      content:null,
+      message:'Se elimino correctamente el producto'
+    })
+  })
+  .catch(error => {
+    res.status(500).json({
+      ok:false,
+      content:error,
+      message:'Hubo un error al eliminar'
+    })
+  })
+}
+
 module.exports = {
   // crearProducto:crearProducto
   crearProducto,
   obtenerProductos,
   obtenerProductoPorId,
-  actualizarProducto
+  actualizarProducto,
+  eliminarProducto
 }
