@@ -27,7 +27,7 @@ const producto_model = (conexion) => {
     },
     estado:{
       type:Sequelize.BOOLEAN,
-      defaulValue:true
+      defaultValue:true
     }
   }, {
     tableName: 't_productos',

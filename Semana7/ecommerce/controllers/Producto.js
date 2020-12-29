@@ -16,7 +16,6 @@ const existeCategoria = (id) => {
 
 const crearProducto = (req, res) => {
   let {cat_id} = req.body;
-
   existeCategoria(cat_id)
   .then(() => {
     let cuerpo = req.body;
@@ -97,13 +96,41 @@ const obtenerProductoPorId = (req, res) => {
 
 const actualizarProducto = (req, res) => {
   if(req.body.cat_id){ //Si es que tengo uan propiedad cat_id, dentro del body, buscare la categoria
-    
+    existeCategoria(req.body.cat_id)
+    // Si es que encuentra la categoria, pasa al siguiente bloque
+    .then()
+    //si no se corta mi función gracias al return, y retorno un status 404, etc...
+    .catch((error)=>{
+      return res.status(404).json({
+        ok:false,
+        content:error,
+        message:"Error"
+      })
+    })
   }
+  Producto.update(req.body, {
+    where:{
+      prodId: req.params.id
+    }
+  }).then(productoActualizado => {
+    return res.json({
+      ok:true,
+      content:null,
+      message:"Producto Actualizado"
+    })
+  }).catch(error => {
+    return res.status(500).json({
+      ok:false,
+      content:error,
+      message:'Error en el servidor'
+    })
+  })
 }
 
 module.exports = {
   // crearProducto:crearProducto
   crearProducto,
   obtenerProductos,
-  obtenerProductoPorId
+  obtenerProductoPorId,
+  actualizarProducto
 }
