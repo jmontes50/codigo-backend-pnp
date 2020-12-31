@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const crypto = require("crypto");
+const jwt = require('jsonwebtoken');
 
 const cliente_model = (conexion) => {
   let cliente = conexion.define(
@@ -56,7 +57,34 @@ const cliente_model = (conexion) => {
     this.cliHash = crypto.pbkdf2Sync(password,this.cliSalt, 1000, 64, 'sha512').toString('hex');
   };
 
+  cliente.prototype.validarPassword = function (password) {
+    //Asumimos que ya hemos encontrado al cliente y a partir del modelo cliente encontrado se ejecutan estas funciones
+    let hashAProbar = crypto.pbkdf2Sync(password, this.cliSalt, 1000, 64, 'sha512').toString('hex');
+
+    //Si el hashAProbar creado a partir de la contraseña recibida es igual al hash almacenado pues todo ok, bien validado
+    if(hashAProbar === this.cliHash){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  cliente.prototype.generarJWT = function(){
+    //El payload es la data, es la parte Intermedia de nuestro JWT y sirve para guardar info adicional como el tiempo de vida de mi token o el nombre del Cliente
+    let payload = {
+      cliId:this.cliId,
+      cliName: this.cliNombre + ' ' + this.cliApellidos
+    }
+    //npm i jsonwebtoken
+    //Gracias a jwt de jsonwebtoken, podemos firmar y generar el token de vuelta para el front, se le da el payload generado previamente, la contraseña del token y algunas opciones extra, como el tiempo de vida del token que puede ser un número o un string con 'X days|h' o el algoritmo de firmado
+    let token = jwt.sign(payload, 'ecommerce', {expiresIn: 60}, {algorithm:'RS256'});
+    console.log(token)
+    return token;
+  }
+
   return cliente;
 };
+
+
 
 module.exports = cliente_model;
