@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const {conexion} = require('./Sequelize');
 const {categoria_router} = require('../routes/Categoria');
 const {producto_router} = require('../routes/Producto');
+const {cliente_router} = require('../routes/Cliente');
 
 class Server {
   constructor(){
@@ -37,6 +38,7 @@ class Server {
     });
     this.app.use('',categoria_router);
     this.app.use('',producto_router);
+    this.app.use('',cliente_router);
   }
 
   iniciarServidor(){
