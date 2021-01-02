@@ -24,6 +24,7 @@ form.addEventListener("submit",(e)=>{
     return data.json()
   })
   .then(rpta => {
+    localStorage.removeItem("token");
     localStorage.setItem("token",rpta.token)
     return console.log(rpta)
   })
@@ -32,6 +33,7 @@ form.addEventListener("submit",(e)=>{
 
 btnProductos.addEventListener("click",()=>{
   let token = localStorage.getItem("token")
+  console.log(token)
   let cabecera = {
     method:'GET',
     headers:{
@@ -40,7 +42,10 @@ btnProductos.addEventListener("click",()=>{
     },
     
   }
-  fetch('http://localhost:8000/productos',cabecera)
-  .then(rpta => rpta.json())
+  fetch('http://localhost:8000/producto',cabecera)
+  .then(rpta => {
+    // console.log({rpta})
+    return rpta.json()
+  })
   .then(rptafinal => console.log(rptafinal))
 })

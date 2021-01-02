@@ -13,9 +13,9 @@ const conexion = new Sequelize(
     timezone: "-05:00",
     logging:false, //para no mostrar Las consultas a la BD generadas, en la consola
     //opciones extra
-    dialectOptions:{
-      dateString:true
-    }
+    // dialectOptions:{
+    //   dateString:true
+    // }
   }
 );
 

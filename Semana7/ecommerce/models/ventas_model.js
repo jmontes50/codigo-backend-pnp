@@ -9,6 +9,10 @@ const venta_model = (conexion) => {
       autoIncrement:true,
       type:Sequelize.INTEGER
     },
+    ventDocumento: {
+      field:'vent_doc',
+      type: Sequelize.INTEGER
+    },
     ventFecha: {
       field:'vent_fecha',
       type: Sequelize.DATE
