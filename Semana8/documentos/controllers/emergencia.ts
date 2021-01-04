@@ -5,6 +5,7 @@ import { Emergencia } from "../config/mongoose";
 import fs from "fs";
 //path -> otra libreria para manejar de manera sencilla las rutas de mis archivos y carpetas
 import path from "path";
+import { CallbackError } from "mongoose";
 
 export let crearEmergencia = (req: Request, res: Response) => {
   Emergencia.create(req.body, function (error: any, emergenciaCreada: any) {
@@ -74,3 +75,60 @@ export let devolverImagen = (req: Request, res:Response) => {
   }
 };
 
+export let eliminarEmergenciaConImagen = (req:Request, res:Response) => {
+  //Que pasos deberiamos seguir para eliminar un registro con sus imagenes
+  /**
+   * 1.Buscar el registro en nuestra DB
+   * 2.Eliminar el registro
+   * 3.buscar la imagen en el servidor
+   * 4. Si la encontramos la eliminamos
+   */
+   let {id} = req.params;
+   Emergencia.findByIdAndDelete(id,{},(error, emergenciaEliminada:any) => {
+     console.log({emergenciaEliminada});
+     if(!error && emergenciaEliminada){
+       fs.unlink(`multimedia/${emergenciaEliminada.eme_img}`,(errorEliminacion)=>{
+         if(error){
+           res.status(500).json({
+             ok:false,
+             content: errorEliminacion,
+             message: 'Se elimino el registro pero no se pudo eliminar el archivo'
+           })
+         }else{
+           res.json({
+             ok:true,
+             content:emergenciaEliminada,
+             message:"Se elimino correctamente el registro y su archivo"
+           })
+         }
+       })
+     }else{
+       res.status(500).json({
+        ok:false,
+        content:error,
+        message:'Hubo un error interno al borrar'
+       })
+     }
+   })
+}
+
+export let agregarBitacoraPorId = (req:Request, res:Response) => {
+  let {id} = req.params;
+  Emergencia.findById(id, (error:CallbackError, resultado:any) => {
+    if(!error){
+      resultado.eme_bitacora.push(req.body);
+      resultado.save();
+      res.status(201).json({
+        ok:true,
+        content:resultado,
+        message:'Se agrego un registro a la Bitácora' 
+      })
+    }else{
+      res.status(500).json({
+        ok:false,
+        content:error,
+        message:'Hubo un error al guardar el registro'
+      })
+    }
+  })
+}
