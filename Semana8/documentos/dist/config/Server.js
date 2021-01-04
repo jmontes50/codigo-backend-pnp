@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const Emergencia_1 = require("../routes/Emergencia");
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -22,6 +23,7 @@ class Server {
         this.app.get('/', (req, res) => {
             res.send("Bienvenid@ a mi API!!!!!!!!!!!!!!");
         });
+        this.app.use('', Emergencia_1.emergencia_router);
     }
     iniciarServidor() {
         this.app.listen(this.puerto, () => {

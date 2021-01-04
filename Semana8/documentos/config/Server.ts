@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import {Request, Response} from 'express';
 import mongoose from 'mongoose';
 
+import {emergencia_router} from "../routes/Emergencia";
+
 export default class Server {
   public app: express.Application;
   public puerto: any;
@@ -24,6 +26,7 @@ export default class Server {
     this.app.get('/',(req:Request, res:Response) => {
       res.send("Bienvenid@ a mi API!!!!!!!!!!!!!!");
     })
+    this.app.use('',emergencia_router);
   }
 
   iniciarServidor(){
