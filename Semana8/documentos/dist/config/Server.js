@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const Emergencia_1 = require("../routes/Emergencia");
+const Usuario_1 = require("../routes/Usuario");
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -24,6 +25,7 @@ class Server {
             res.send("Bienvenid@ a mi API!!!!!!!!!!!!!!");
         });
         this.app.use('', Emergencia_1.emergencia_router);
+        this.app.use('', Usuario_1.usuario_router);
     }
     iniciarServidor() {
         this.app.listen(this.puerto, () => {

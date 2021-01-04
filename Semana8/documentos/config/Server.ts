@@ -4,6 +4,7 @@ import {Request, Response} from 'express';
 import mongoose from 'mongoose';
 
 import {emergencia_router} from "../routes/Emergencia";
+import {usuario_router} from "../routes/Usuario";
 
 export default class Server {
   public app: express.Application;
@@ -27,6 +28,7 @@ export default class Server {
       res.send("Bienvenid@ a mi API!!!!!!!!!!!!!!");
     })
     this.app.use('',emergencia_router);
+    this.app.use('',usuario_router);
   }
 
   iniciarServidor(){
