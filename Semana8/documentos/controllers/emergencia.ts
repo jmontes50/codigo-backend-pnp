@@ -31,7 +31,7 @@ export let subirImagen = (req: Request, res: Response) => {
     let ruta = req.files.imagen.path;
     // console.log({ruta})
     let nombreArchivo = ruta.split("\\")[1];
-    console.log(nombreArchivo);
+    // console.log(nombreArchivo);
     Emergencia.findByIdAndUpdate(
       id,
       { eme_img: nombreArchivo },
@@ -59,3 +59,18 @@ export let subirImagen = (req: Request, res: Response) => {
     });
   }
 };
+
+export let devolverImagen = (req: Request, res:Response) => {
+  let {nombre} = req.params;
+  let ruta = `multimedia/${nombre}`;
+  let rutaPorDefault = 'multimedia/image.jpg';
+  //verificamos si el archivo existe y devolverá un booleano
+  if(fs.existsSync(ruta)){
+    //resolve sirve para mostrar/devolver un archivo
+    //sendFile, para mandar al front nada mas que un archivo, no puedo mandar json, texto o algo adicional
+    return res.sendFile(path.resolve(ruta));
+  }else{
+    return res.sendFile(path.resolve(rutaPorDefault));
+  }
+};
+
