@@ -20,11 +20,12 @@ app.use(misRutas);
 io.on('connect', (socket)=>{
   console.log("Usuari@ conectad@");
 
-  socket.on('join', ({name}) => {
+  socket.on('join', ({name, room}, callback)=>{
     console.log(name)
+    console.log(room)
+    return callback("esto viene desde el backend")
   })
 })
-
 
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`)
