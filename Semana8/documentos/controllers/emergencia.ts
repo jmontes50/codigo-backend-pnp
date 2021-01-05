@@ -132,3 +132,21 @@ export let agregarBitacoraPorId = (req:Request, res:Response) => {
     }
   })
 }
+
+export let obtenerEmergencias = (req:Request, res: Response) => {
+  Emergencia.find((error, emergencias) => {
+    if(error){
+      res.status(500).json({
+        ok:false,
+        content:error,
+        message:"Hubo un error al listar las emergencias"
+      })
+    }else{
+      res.json({
+        ok:true,
+        content:emergencias,
+        message:"Emergencias obtenidas"
+      })
+    }
+  })
+}
