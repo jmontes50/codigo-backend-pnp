@@ -18,15 +18,34 @@ export default function Chat({location}) {
     setRoom(room);
     setName(user);
 
-    socket.emit('join', {name, room}, (rpta)=>{
+    socket.emit('join', {name:user, room}, (rpta)=>{
+      console.log({name, room})
       console.log(rpta)
     })
 
+  },[ENDPOINT, location.search])
+
+  useEffect(()=>{
+    socket.on('message', (message) => {
+      setMessages(messages => [...messages, message])
+    })
   },[])
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if(message){
+      socket.emit('sendMessage', message, () => {setMessage('')})
+    }
+  }    
 
   return (
     <div>
       Hola
+      {JSON.stringify(messages)}
+
+
+      <input type="text" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
+      <button onClick={(e)=>{sendMessage(e)}}>Enviar</button>
     </div>
   )
 }

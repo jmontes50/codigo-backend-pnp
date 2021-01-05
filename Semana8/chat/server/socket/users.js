@@ -26,8 +26,7 @@ const addUser = ({id, name, room}) => {
   }
 
   users.push(objUser)
-
-  return { objUser }
+  return {user:objUser} 
 }
 
 const removeUser = (id) => {
