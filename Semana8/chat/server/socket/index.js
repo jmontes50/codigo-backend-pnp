@@ -41,10 +41,9 @@ io.on("connect", (socket) => {
 
   //va a ser el evento por el cual yo voy a recibir un mensaje y lo voy a reenviar
   socket.on('sendMessage', (message, callback) => {
-    const user = getUser(socket.id);
-    console.log(socket.id)
-    console.log({user})
-    io.to(user.room).emit('message', {user:user.name, text:message});
+    const miUser = getUser(socket.id);
+   
+    io.to(miUser.room).emit('message', {user:miUser.name, text:message});
 
     callback();
   })

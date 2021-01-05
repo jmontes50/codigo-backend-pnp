@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import io from 'socket.io-client';
 import queryString from 'query-string';
+import Messages from "./Messages";
 
 const ENDPOINT = 'http://localhost:5000/';
 let socket;
+
 
 export default function Chat({location}) {
   const [name, setName] = useState('');
@@ -41,11 +43,11 @@ export default function Chat({location}) {
   return (
     <div>
       Hola
-      {JSON.stringify(messages)}
+      <Messages messages={messages} name={name}/>
 
 
       <input type="text" value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
-      <button onClick={(e)=>{sendMessage(e)}}>Enviar</button>
+      <button className="btn btn-primary" onClick={(e)=>{sendMessage(e)}}>Enviar</button>
     </div>
   )
 }
