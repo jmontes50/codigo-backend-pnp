@@ -9,7 +9,7 @@ export default function Productos() {
     try {
       let {
         data: { content },
-      } = await axios.get("http://localhost:3000/api/v1/productos");
+      } = await axios.get("http://localhost:5000/api/v1/productos");
       setProductos(content);
     } catch (error) {
       console.log(error);
@@ -21,14 +21,10 @@ export default function Productos() {
   }, []);
 
   const obtenerCargo = async (datos) => {
-    try {
-      let rpta = await axios.get("http://localhost:3000/api/v1/comprar", {
-        ...datos,
-      });
-      console.log({rpta})
-    } catch (error) {
-      console.log({error})
-    }
+    let rpta = await axios.post("http://localhost:5000/api/v1/comprar", {
+      ...datos,
+    });
+    console.log({ rpta });
   };
 
   return (
@@ -49,10 +45,10 @@ export default function Productos() {
               onToken={(token) => {
                 console.log("token recibido", token);
                 let objDatos = {
-                  amount:prod.precio * 100,
-                  email:token.email,
-                  source_id:token.id
-                }
+                  amount: prod.precio * 100,
+                  email: token.email,
+                  source_id: token.id,
+                };
                 obtenerCargo(objDatos);
               }}
               onError={(error) => {
