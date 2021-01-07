@@ -17,7 +17,7 @@ app.use(cors());
 app.options("*", cors());
 app.use(misRutas);
 
-io.on("connect", (socket) => {
+io.on("connection", (socket) => {
   console.log("Usuari@ conectad@");
 
   //Mensaje de bienvenida
@@ -46,6 +46,14 @@ io.on("connect", (socket) => {
     io.to(miUser.room).emit('message', {user:miUser.name, text:message});
 
     callback();
+  })
+
+  socket.on('disconnect', () => {
+    const user = removeUser(socket.id);
+    console.log({user})
+    if(user){
+      io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} se desconecto!`})
+    }
   })
 });
 
