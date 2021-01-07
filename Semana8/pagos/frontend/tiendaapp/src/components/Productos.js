@@ -34,7 +34,7 @@ export default function Productos() {
           <CulqiProvider
           title={`Pagar ${prod.nombre}`}
           description="Proceder Compra"
-          amount={`${prod.precio} * 100`}
+          amount={`${prod.precio * 100}`}
           publicKey="pk_test_q7xrkzqnL6fqNGqI"
           onToken={token => {
             console.log("token recibido", token)
@@ -43,7 +43,23 @@ export default function Productos() {
             console.log("Errorrr", error)
           }}
           >
-            
+            <div>
+              <Culqi>
+                {({openCulqi, setAmount, amount}) => {
+                  return (
+                    <div>
+                      <h3>Monto a pagar: {amount}</h3>
+                      <button 
+                        className="btn btn-primary"
+                        onClick={openCulqi}
+                        >
+                        Comprar
+                      </button>
+                    </div>
+                  )
+                }}
+              </Culqi>
+            </div>
           </CulqiProvider>
         </div>
       </div>
