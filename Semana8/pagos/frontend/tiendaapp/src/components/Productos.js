@@ -9,7 +9,7 @@ export default function Productos() {
     try {
       let {
         data: { content },
-      } = await axios.get("http://localhost:5000/api/v1/productos");
+      } = await axios.get("https://backend-pasarela.herokuapp.com/api/v1/productos");
       setProductos(content);
     } catch (error) {
       console.log(error);
@@ -21,7 +21,7 @@ export default function Productos() {
   }, []);
 
   const obtenerCargo = async (datos) => {
-    let rpta = await axios.post("http://localhost:5000/api/v1/comprar", {
+    let rpta = await axios.post("https://backend-pasarela.herokuapp.com/api/v1/comprar", {
       ...datos,
     });
     console.log({ rpta });
